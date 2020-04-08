@@ -1,39 +1,36 @@
 $(document).ready(function() {
-  // Getting references to our form and inputs
-  var loginForm = $("form.login");
-  var emailInput = $("input#email-input");
-  var passwordInput = $("input#password-input");
+    const login = $(".login");
+    const usernameInput = $("#username");
+    const passwordInput = $("#password");
 
-  // When the form is submitted, we validate there's an email and password entered
-  loginForm.on("submit", function(event) {
-    event.preventDefault();
-    var userData = {
-      email: emailInput.val().trim(),
-      password: passwordInput.val().trim()
-    };
-
-    if (!userData.email || !userData.password) {
-      return;
+    const loginError = err => {
+        //add in code to handle login errors
     }
 
-    // If we have an email and password we run the loginUser function and clear the form
-    loginUser(userData.email, userData.password);
-    emailInput.val("");
-    passwordInput.val("");
-  });
+    const loginUser = (username, password) => {
+        $.post("/api/login", {
+            username: username,
+            password: password
+        }).then(res => {
+            console.log(res);
+            window.location.replace("/food-log")
+        });
+    };
 
-  // loginUser does a post to our "api/login" route and if successful, redirects us the the members page
-  function loginUser(email, password) {
-    $.post("/api/login", {
-      email: email,
-      password: password
-    })
-      .then(function() {
-        window.location.replace("/members");
-        // If there's an error, log the error
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-  }
+    login.on("submit", event => {
+        event.preventDefault();
+
+        const username = usernameInput.val().trim();
+        const password = passwordInput.val().trim();
+
+        if(!username || !password) {
+            return;
+            //put an error message later
+        }
+
+        loginUser(username, password);
+
+        usernameInput.val("");
+        passwordInput.val("");
+    });
 });

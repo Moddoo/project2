@@ -1,53 +1,132 @@
-// Requiring our models and passport as we've configured it
-var db = require("../models");
-var passport = require("../config/passport");
 
-module.exports = function(app) {
-  // Using the passport.authenticate middleware with our local strategy.
-  // If the user has valid login credentials, send them to the members page.
-  // Otherwise the user will be sent an error
-  app.post("/api/login", passport.authenticate("local"), function(req, res) {
-    // Sending back a password, even a hashed password, isn't a good idea
-    res.json({
-      email: req.user.email,
-      id: req.user.id
+const db = require("../models");
+const Op = require("../models").Sequelize.Op;
+const axios = require("axios");
+const passport = require("../config/passport");
+
+module.exports = app => {
+    app.post("/api/signup", (req, res) => {
+        db.User.create({
+            username: req.body.username,
+            password: req.body.password
+        }).then(() => {
+            res.redirect(307, "/api/login");
+        }).catch(err => {
+            res.status(401).json(err);
+        });
     });
-  });
 
-  // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
-  // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
-  // otherwise send back an error
-  app.post("/api/signup", function(req, res) {
-    db.User.create({
-      email: req.body.email,
-      password: req.body.password
+    app.post("/api/login", passport.authenticate("local"), (req, res) => {
+        res.json({
+            username: req.user.username,
+            id: req.user.id
+        });
+    });
+
+    app.get("/logout", (req, res) => {
+        req.logout();
+        res.redirect("/");
+    });
+
+    app.post("/api/food", (req, res) => {
+        console.log(req.body);
+        console.log(req.user);
+        const food = req.body.food;
+
+        axios.get(req.body.url).then(response => {
+            const responseArray = [response.data.totalNutrients.ENERC_KCAL, response.data.totalNutrients.FAT, response.data.totalNutrients.CHOCDF, response.data.totalNutrients.NA, response.data.totalNutrients.CHOLE]
+            for(let i = 0; i < responseArray.length; i++){
+                if(responseArray[i] === undefined){
+                    responseArray[i] = {quantity: 0};
+                }
+            }
+            console.log(responseArray);
+
+            db.FoodLog.create({
+                food_item: food,
+                calories: responseArray[0].quantity,
+                fat: responseArray[1].quantity,
+                carbs: responseArray[2].quantity,
+                sodium: responseArray[3].quantity,
+                cholesterol: responseArray[4].quantity,
+                date: req.body.date,
+                month: req.body.month,
+                day: req.body.day,
+                year: req.body.year,
+                dayID: req.body.dayID,
+                weekID: req.body.weekID,
+                UserId: req.user.id
+            }).then(dbResponse => {
+                res.json(dbResponse);
+            })
+        })
     })
-      .then(function() {
-        res.redirect(307, "/api/login");
-      })
-      .catch(function(err) {
-        res.status(401).json(err);
-      });
-  });
 
-  // Route for logging user out
-  app.get("/logout", function(req, res) {
-    req.logout();
-    res.redirect("/");
-  });
+    app.get("/api/:date", (req, res) => {
+        const userID = req.user.id;
+        const weekStart = req.params.date.split("-");
+        const dateArray = [];
 
-  // Route for getting some data about our user to be used client side
-  app.get("/api/user_data", function(req, res) {
-    if (!req.user) {
-      // The user is not logged in, send back an empty object
-      res.json({});
-    } else {
-      // Otherwise send back the user's email and id
-      // Sending back a password, even a hashed password, isn't a good idea
-      res.json({
-        email: req.user.email,
-        id: req.user.id
-      });
-    }
-  });
+        for(const date of weekStart){
+            dateArray.push(parseInt(date));
+        }
+        console.log(dateArray);
+
+        if(dateArray[0] !== dateArray[2]){
+            //this if condition isn't tested yet
+            const objectResponse = {};
+
+            db.FoodLog.findAll({
+                where: {
+                    month: dateArray[0],
+                    day: {
+                        [Op.gte]: dateArray[1]
+                    },
+                    UserId: userID
+                }
+            }).then(result => {
+                objectResponse[firstMonth] = result;
+                db.FoodLog.findAll({
+                    where: {
+                        month: dateArray[2],
+                        day: {
+                            [Op.lte]: dateArray[3]
+                        },
+                        UserId: userID
+                    }
+                }).then(result => {
+                    objectResponse[secondMonth] = result;
+                    res.json(objectResponse);
+                });
+            });
+        }
+        else{
+            db.FoodLog.findAll({
+                where: {
+                    day: {
+                        [Op.between]: [dateArray[1], dateArray[3]]
+                    },
+                    UserId: userID
+                }
+            }).then(result => {
+                res.json(result);
+            })
+        }
+    })
+
+    app.get("/api/pastweeks/:weekID", (req, res) => {
+        const userID = req.user.id;
+        const weekID = parseInt(req.params.weekID);
+
+        db.FoodLog.findAll({
+            where: {
+                UserId: userID,
+                weekID: {
+                    [Op.lte]: weekID
+                }
+            }
+        }).then(result => {
+            res.json(result);
+        });
+    });
 };
