@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     User.associate = models => {
-        User.hasMany(models.FoodLog, {
+        User.hasMany(models.Foodzi, {
             onDelete: "cascade"
         });
     };
