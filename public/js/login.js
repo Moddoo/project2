@@ -23,7 +23,7 @@ $(document).ready(function() {
                     loginError();
                 }
             }
-        })
+        });
     };
 
     login.on("submit", event => {
