@@ -3,19 +3,12 @@ const isAuthenticated = require("../config/middleware/isAuthenticated");
 module.exports = app => {
     app.get("/", (req, res) => {
         if(req.user) {
-            return res.redirect("/food-log");
+            return res.render("user");
         }
-        res.render("signup");
-    });
-
-    app.get("/login", (req, res) => {
-        if(req.user) {
-            return res.redirect("/food-log");
-        }
-        res.render("login");
+        return res.render("index");
     });
 
     app.get("/food-log", isAuthenticated, (req, res) => {
-        res.render("food");
+        return res.render("food");
     });
 };

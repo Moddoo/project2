@@ -1,47 +1,54 @@
 $(document).ready(function() {
-    const signUp = $(".signup");
+    const signUp = $("#signup");
     const usernameInput = $("#username");
-    const passwordInput = $("#password");
+    const emailInput = $("#email");
+    const passwordInput1 = $("#password1");
+    const passwordInput2 = $("#password2");
 
     const signUpError = message => {
-        $("#error").empty().append(message);
+        $("#signUpError").empty().append(message);
     }
 
-    const createUserAccount = (username, password) => {
-        $.ajax({
-            type: "POST",
-            url: "/api/signup",
-            data: {
-                username: username,
-                password: password
-            },
-            statusCode: {
-                200: res => {
-                    window.location.replace("/food-log");
-                },
-                401: res => {
-                    signUpError("That username is already taken.");
-                }
+    const createUserAccount = (username, email, password) => {
+        $.post("/api/signup", {
+            username: username,
+            email: email,
+            password: password
+        }, res => {
+            console.log(res);
+
+            if(res === "OK") {
+                window.location.replace("/");
             }
-        })
+            else if(res.errors[0].message === "users.username must be unique") {
+                signUpError("That username is already taken.");
+            }
+            else if(res.errors[0].message === "users.email must be unique") {
+                signUpError("That email has already been registered.");
+            }
+        });
     };
 
     signUp.on("submit", event => {
         event.preventDefault();
 
         const username = usernameInput.val().trim();
-        const password = passwordInput.val().trim();
+        const email = emailInput.val().trim();
+        const password1 = passwordInput1.val().trim();
+        const password2 = passwordInput2.val().trim();
 
-        if(!username || !password) {
-            return signUpError("Please enter a username and password.");
+        if(password1 !== password2) {
+            return signUpError("Passwords do not match.");
         }
-        else if(password.length <= 4) {
+        else if(password1.length <= 4 || password2.length <= 4) {
             return signUpError("Your password must be at least 5 characters long.");
         }
 
-        createUserAccount(username, password);
+        createUserAccount(username, email, password1);
 
         usernameInput.val("");
-        passwordInput.val("");
+        emailInput.val("");
+        passwordInput1.val("");
+        passwordInput2.val("");
     })
 });
