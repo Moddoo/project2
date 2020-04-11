@@ -1,13 +1,13 @@
 $(document).ready(function() {
-    const login = $(".login");
-    const usernameInput = $("#username");
-    const passwordInput = $("#password");
+    const signIn = $("#signin");
+    const usernameInput = $("#signInUsername");
+    const passwordInput = $("#signInPassword");
 
-    const loginError = () => {
-        $("#error").empty().append("Invalid username or password.");
+    const signInError = () => {
+        $("#signInError").empty().append("Invalid username or password.");
     }
 
-    const loginUser = (username, password) => {
+    const signInUser = (username, password) => {
         $.ajax({
             type: "POST",
             url: "/api/login",
@@ -17,26 +17,29 @@ $(document).ready(function() {
             },
             statusCode: {
                 200: res => {
-                    window.location.replace("/food-log");
+                    window.location.replace("/");
                 },
                 401: res => {
-                    loginError();
+                    signInError();
                 }
             }
         });
     };
 
-    login.on("submit", event => {
+    signIn.on("submit", event => {
+        console.log("here");
         event.preventDefault();
 
         const username = usernameInput.val().trim();
         const password = passwordInput.val().trim();
 
         if(!username || !password) {
-            loginError();
+            signInError();
         }
 
-        loginUser(username, password);
+        console.log(username, password);
+
+        signInUser(username, password);
 
         usernameInput.val("");
         passwordInput.val("");

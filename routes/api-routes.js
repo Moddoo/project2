@@ -10,16 +10,17 @@ module.exports = app => {
     app.post("/api/signup", (req, res) => {
         db.User.create({
             username: req.body.username,
+            email: req.body.email,
             password: req.body.password
         }).then(() => {
-            res.redirect(307, "/api/login");
+            return res.redirect(307, "/api/login");
         }).catch(err => {
-            res.sendStatus(401).json(err);
+            return res.json(err);
           });
     });
 
     app.post("/api/login", passport.authenticate("local"), (req, res) => {
-        res.sendStatus(200);
+        return res.sendStatus(200);
     });
 
     app.get("/logout", (req, res) => {

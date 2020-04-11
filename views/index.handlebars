@@ -1,27 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../public/assets/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-</head>
-<body id="home" class="scrollspy">
-
-    <div class="navbar-fixed navy">
+<div class="navbar-fixed navy">
         <nav class="purple lighten-1 navy black-text">
             <div class="container">
                 <div class="nav-wrapper">
-                 <a href="#home" class="brand-logo">FOODZI</a>
+                 <a href="/" class="brand-logo">FOODZI</a>
                  <a href="#" data-target="mobile-nav" class="sidenav-trigger">
                      <i class="material-icons">&#x2630;</i>
                  </a>
                  <ul class="right hide-on-med-and-down">
-                     <li><a href="#signing" class="sign animated shake slow modal-trigger">SignUp</a></li>
+                     <li><a href="#signing" class="sign animated shake slow modal-trigger">Sign Up/Sign In</a></li>
                      <li><a href="#ingredient" class="">Recipes</a></li>
                      <li><a href="#" class="">Meals</a></li>
                      <li><a href="#contact" class="">Contact</a></li>
@@ -31,7 +17,7 @@
         </nav>
     </div>
          <ul class="sidenav  indigo lighten-5" id="mobile-nav">
-            <li><a href="#signing" class="black-text modal-trigger">SignUp</a></li>
+            <li><a href="#signing" class="black-text modal-trigger">Sign Up/Sign In</a></li>
             <li><a href="#ingredient" class="black-text">Recipes</a></li>
             <li><a href="#f" class="black-text">Meals</a></li>
             <li><a href="#contact" class="black-text">Contact</a></li>
@@ -42,7 +28,7 @@
         <div class="modal-content" style="margin: 0 !important; padding: 0 !important;">
           <div class="center">
             <h2>
-              <i class="material-icons prefix">border_color</i>  
+              <i class="material-icons prefix">border_color</i>
               Form
             </h2>
           </div>
@@ -63,8 +49,8 @@
             <div class="row">
               <div class="input-field col s6">
                 <i class="material-icons prefix blue-text">account_circle</i>
-                <input id="username" type="text" class="validate" required> <!--input for user name -->
-                <label for="username" class="black-text">User Name</label>
+                <input id="username" type="text" class="validate" required> <!--input for username -->
+                <label for="username" class="black-text">Username</label>
               </div>
               <div class="input-field col s6">
                 <i class="material-icons prefix blue-text">email</i>
@@ -81,6 +67,7 @@
                 <input id="password2" type="password" class="validate" required>    <!--input for password -->
                 <label for="password2" class="black-text">Password</label>
               </div>
+              <p class="center" id="signUpError"></p>
             </div>
             <div class="center">
               <button class="btn waves-effect waves-light indigo" type="submit" name="action">Submit
@@ -91,18 +78,20 @@
           <form class="col s12" id="signin">
             <div class="input-field col s6">
               <i class="material-icons prefix">account_circle</i>
-              <input id="user" type="text" class="validate" required> <!--input for user name -->
-              <label for="user" class="black-text">User Name</label>
+              <input id="signInUsername" type="text" class="validate" required>    <!--input for username -->
+              <label for="signInUsername" class="black-text">Username</label>
             </div>
             <div class="row">
               <div class="input-field col s6">
                 <i class="material-icons prefix">keyboard</i>
-                <input id="password" type="password" class="validate" required>    <!--input for password -->
-                <label for="password" class="black-text">Password</label>
+                <input id="signInPassword" type="password" class="validate" required>    <!--input for password -->
+                <label for="signInPassword" class="black-text">Password</label>
               </div>
             </div>
+            <p class="center" id="signInError"></p>
+            <br>
             <div class="center">
-              <button class="btn waves-effect waves-light indigo" type="submit" name="action">Submit
+              <button class="btn waves-effect waves-light indigo" type="submit">Submit
                 <i class="material-icons right">send</i>
               </button>
             </div>
@@ -114,7 +103,7 @@
       <!-- videoooooooooooooooooooooooooooooooooo    -->
 
     <div class="video">
-        <video src="../public/video/video.mp4" type="video/mp4" loop muted autoplay></video>
+        <video src="./video/video.mp4" type="video/mp4" loop muted autoplay></video>
 
         <div id="slider">
             <div class="container">
@@ -149,7 +138,7 @@
     <!-- healthy tipssssssssssssssssssssssssssssssssssssssss -->
 <div class="healthy" >
   <h3 class="center red white-text" style="align-self: center; margin: 0;height: 100px;padding-top: 20px;text-shadow: 2px 2px 2px black;">
-    Healthy Tips
+    Health Tips
   </h3>
   <div class="grey lighten-2 warapper-A">
     <div class="contain-A">
@@ -519,6 +508,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
-    <script src="../public/assets/main.js"></script>
-</body>
-</html>
+    <script src="./js/main.js"></script>
+    <script src="./js/signup.js"></script>
+    <script src="./js/login.js"></script>
