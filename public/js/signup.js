@@ -3,17 +3,27 @@ $(document).ready(function() {
     const usernameInput = $("#username");
     const passwordInput = $("#password");
 
-    const signUpError = err => {
-        //add in code to handle signup errors
+    const signUpError = message => {
+        $("#error").empty().append(message);
     }
 
     const createUserAccount = (username, password) => {
-        $.post("/api/signup", {
-            username: username,
-            password: password
-        }).then(res => {
-            window.location.replace("/food-log");
-        });
+        $.ajax({
+            type: "POST",
+            url: "/api/signup",
+            data: {
+                username: username,
+                password: password
+            },
+            statusCode: {
+                200: res => {
+                    window.location.replace("/food-log");
+                },
+                401: res => {
+                    signUpError("That username is already taken.");
+                }
+            }
+        })
     };
 
     signUp.on("submit", event => {
@@ -23,8 +33,10 @@ $(document).ready(function() {
         const password = passwordInput.val().trim();
 
         if(!username || !password) {
-            return;
-            //put an error message later
+            return signUpError("Please enter a username and password.");
+        }
+        else if(password.length <= 4) {
+            return signUpError("Your password must be at least 5 characters long.");
         }
 
         createUserAccount(username, password);

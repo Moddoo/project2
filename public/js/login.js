@@ -3,17 +3,26 @@ $(document).ready(function() {
     const usernameInput = $("#username");
     const passwordInput = $("#password");
 
-    const loginError = err => {
-        //add in code to handle login errors
+    const loginError = () => {
+        $("#error").empty().append("Invalid username or password.");
     }
 
     const loginUser = (username, password) => {
-        $.post("/api/login", {
-            username: username,
-            password: password
-        }).then(res => {
-            console.log(res);
-            window.location.replace("/food-log")
+        $.ajax({
+            type: "POST",
+            url: "/api/login",
+            data: {
+                username: username,
+                password: password
+            },
+            statusCode: {
+                200: res => {
+                    window.location.replace("/food-log");
+                },
+                401: res => {
+                    loginError();
+                }
+            }
         });
     };
 
@@ -24,8 +33,7 @@ $(document).ready(function() {
         const password = passwordInput.val().trim();
 
         if(!username || !password) {
-            return;
-            //put an error message later
+            loginError();
         }
 
         loginUser(username, password);
