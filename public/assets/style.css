@@ -442,7 +442,6 @@ video {
 }
 .search-container input{
     width: unset !important;
-    /* height: unset !important; */
     position: relative;
     display: inline-block !important;
     font-size: 20px;
@@ -483,6 +482,24 @@ video {
 .search-container input[type='submit']:hover{
     background: #ff5722;
 }
+td label [type="checkbox"].filled-in:checked+span:not(.lever):after{
+    background-color: red !important;
+    border: 2px solid black;
+}
+td label [type="checkbox"].filled-in:checked+span:not(.lever):before{
+    /* border-right: 2px solid black;
+    border-bottom: 2px solid black; */
+}
+td label span{
+    margin-right: -18px;
+}
+.select-wrapper input.select-dropdown{
+    border-bottom: 2px solid brown !important;
+}
+.dropdown-content li>a, .dropdown-content li>span{
+    color: green !important;
+}
+
 
   /* [ANIMATION] */
   @keyframes slide-animation {

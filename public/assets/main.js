@@ -5,13 +5,25 @@ $(document).ready(function() {
     const carousel = document.querySelectorAll('.carousel');
     const parallax = document.querySelectorAll(".parallax");
     const tabs = document.querySelectorAll(".tabs");
+    const select = document.querySelectorAll('select');
+
+    // console.log(select[0][1].textContent)
+    // for(el of select[0]) {
+    //     console.log(el)
+    // };
+    // select[0].addEventListener('change', function(e){
+    //     console.log(e.target.value)
+    // })
+    $('select').on('change', function(e){
+        // console.log(this.value)
+       $('tbody tr td[class=name]').each( () => console.log($('tbody tr td[class=name]').text()))
+    })
 
     $(document).scroll(() => {
         if($(this).scrollTop() > 130) {
             $('.navy').css('height','45px');
             $('.nav-wrapper a, .sidenav-trigger').css({
                 color: rgb(255, 213, 28),
-                // color: 'tomato',
                 'text-shadow': 'none'
             });
         };
@@ -32,6 +44,7 @@ $(document).ready(function() {
     M.Parallax.init(parallax);
     M.Modal.init(signUp)
     M.Tabs.init(tabs);
+    M.FormSelect.init(select)
     $('.wrap').ripples({
         dropRadius: 20,
         perturbance: 0.03,
