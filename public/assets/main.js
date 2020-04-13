@@ -7,16 +7,25 @@ $(document).ready(function() {
     const tabs = document.querySelectorAll(".tabs");
     const select = document.querySelectorAll('select');
 
-    // console.log(select[0][1].textContent)
-    // for(el of select[0]) {
-    //     console.log(el)
-    // };
-    // select[0].addEventListener('change', function(e){
-    //     console.log(e.target.value)
-    // })
-    $('select').on('change', function(e){
-        // console.log(this.value)
-       $('tbody tr td[class=name]').each( () => console.log($('tbody tr td[class=name]').text()))
+    $('select').on('change', function(){
+        
+        switch (this.value) {
+            case 'calorie':        
+                $("#tableingredient").html(Array.from($("#tableingredient")[0].rows).sort((a,b) => a.cells[2].textContent - b.cells[2].textContent).map(el => el.outerHTML))
+                break;
+            case 'sodium':        
+                $("#tableingredient").html(Array.from($("#tableingredient")[0].rows).sort((a,b) => a.cells[3].textContent - b.cells[3].textContent).map(el => el.outerHTML))
+                break;
+            case 'fat':        
+                $("#tableingredient").html(Array.from($("#tableingredient")[0].rows).sort((a,b) => a.cells[4].textContent - b.cells[4].textContent).map(el => el.outerHTML))
+                break;
+            case 'name':
+                $("#tableingredient").html(Array.from($("#tableingredient")[0].rows).sort((a,b) => a.cells[1].textContent.localeCompare(b.cells[1].textContent)).map(el => el.outerHTML))
+                break;
+        
+            default:
+                break;
+        }
     })
 
     $(document).scroll(() => {
@@ -51,3 +60,5 @@ $(document).ready(function() {
         resolution: 1000
       });
 })
+
+
