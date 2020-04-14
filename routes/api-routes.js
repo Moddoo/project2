@@ -3,6 +3,8 @@ const db = require("../models");
 const Op = require("../models").Sequelize.Op;
 const axios = require("axios");
 const passport = require("../config/passport");
+require("dotenv").config();
+
 
 module.exports = app => {
     app.post("/api/signup", (req, res) => {
@@ -129,4 +131,95 @@ module.exports = app => {
             res.json(result);
         });
     });
+
+    // Food Storage and Recipe Stuff
+    app.get("/api/food/storage", (req, res) => {
+        const userID = req.user.id;
+
+        db.FoodStorage.findAll({
+            where: {
+                UserId: userID
+            }
+        }).then(result => {
+            console.log(result);
+            res.json(result);
+        });
+
+    })
+    
+    app.post("/api/food/storage", (req, res) => {
+        console.log(req.body);
+        console.log(req.user);
+        
+        db.FoodStorage.create({
+            ingredients: req.body.ingredients,
+            number: req.body.number,
+            UserId: req.user.id
+        }).then(dbResponse => {
+            res.json(dbResponse);
+        })
+    })
+
+    app.post("/api/recipe/storage", (req, res) => {
+        // console.log(req.body);
+        console.log(req.user);
+        
+
+        for(const obj of req.body){
+            db.recipeStorage.create(
+                obj
+                ).then(dbResponse => {
+                res.json(dbResponse);
+            })
+
+        }
+
+    })
+
+    app.post("/api/recipe/search", (req, res) => {
+        console.log(req.body.data);
+        // console.log(req.user);
+        // const userID = req.user.id; 
+        const recipeInput = req.body.input;
+
+
+        axios.get(`https://api.spoonacular.com/recipes/search?apiKey=${process.env.API_KEY2}&query=${recipeInput}&number=10`).then(response => {
+            
+            // const responseArr = response.data.results
+            
+            console.log(response.data)
+        // const responseArray = [response.data.totalNutrients.ENERC_KCAL, response.data.totalNutrients.FAT, response.data.totalNutrients.CHOCDF, response.data.totalNutrients.NA, response.data.totalNutrients.CHOLE]
+            // for(let i = 0; i < responseArray.length; i++){
+            //     if(responseArray[i] === undefined){
+            //         responseArray[i] = {quantity: 0};
+            //     }
+            // }
+            // console.log(responseArray); 
+            
+            const responseData = response.data.results
+            
+            for(const resData of responseData){
+                console.log(resData)
+            }
+
+           
+
+        }).catch(error => {
+            if(error) throw error;
+        })
+    
+
+        // db.FoodStorage.findAll({
+        //     where: {
+        //         UserId: userID
+        //     }
+        // }).then(result => {
+        //     console.log(result);
+        //     res.json(result);
+        // });
+
+    })
+
+
+
 };

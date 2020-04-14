@@ -28,10 +28,16 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     User.associate = models => {
-        User.hasMany(models.Foodzi, {
+        User.hasMany(models.FoodLog, {
             onDelete: "cascade"
         });
     };
 
+    User.associate = models => {
+        User.hasMany(models.FoodStorage, {
+            onDelete: "cascade"
+        });
+    };
+    
     return User;
 };

@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h2>Add What you have!</h2>
+                
+            <form id="food-form">
+                <input type="text" id="food-input" placeholder="What are you adding?">
+                <input type="text" id="food-number" placeholder="How many are you adding?">
+                <button type="submit">Add Something!</button>
+            </form>
+
+            <div id="food-container">
+                <ul>
+                {{#each id}}
+                    <li>
+                        <p>{{ingredients}}</p>
+                        <p>{{number}}</p>
+                    </li>
+                {{/each}}
+                    <li>Apple</li>
+                    <li>Orange</li>
+                    <li>Pear</li>
+                    <li>Peach</li>
+                    <li>Pizza</li>
+                    <li>...</li>
+                </ul>
+            </div>
+
+        </div>
+        
+        <div class="col-6">
+        
+        <h2>Recipe Look Up</h2>
+
+        <form id="recipe-form">
+            <input type="text" id="recipe-input" placeholder="What are you looking for?">
+            <button type="submit">Search!</button>
+            {{!-- <button id="search-All"type="submit">Search All!</button> --}}
+        </form>
+        
+        <div class="recipe-container">
+            <ul>
+                <li>Apple</li>
+                <li>Orange</li>
+                <li>Pear</li>
+                <li>Peach</li>
+                <li>Pizza</li>
+                <li>...</li>
+            </ul>
+        </div>
+        
+        </div>
+
+    </div>
+</div>
+
+<script src="../js/foodStorage.js"></script>

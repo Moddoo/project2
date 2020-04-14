@@ -1,5 +1,5 @@
-DROP DATABASE IF EXISTS food_log_db;
+DROP DATABASE IF EXISTS foodzi;
 
-CREATE DATABASE food_log_db;
+CREATE DATABASE foodzi;
 
-USE food_log_db;
+USE foodzi;
