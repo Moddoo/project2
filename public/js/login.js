@@ -1,36 +1,71 @@
 $(document).ready(function() {
-    const login = $(".login");
-    const usernameInput = $("#username");
-    const passwordInput = $("#password");
+    const signIn = $("#signin");
+    const usernameInput = $("#signInUsername");
+    const passwordInput = $("#signInPassword");
+    const usernameEmailForm = $("#forgotUsernameForm");
+    const passwordEmailForm = $("#forgotPasswordForm");
+    const usernameEmail = $("#usernameEmail");
+    const passwordEmail = $("#passwordEmail");
 
-    const loginError = err => {
-        //add in code to handle login errors
+    const signInError = () => {
+        $("#signInError").empty().append("<a href='#forgotUsername' class='modal-trigger'>Forgot username</a> | <a href='#forgotPassword' class='modal-trigger'>Forgot password</a>");
+        $("#signInError").append("<br>Invalid username or password.");
     }
 
-    const loginUser = (username, password) => {
-        $.post("/api/login", {
-            username: username,
-            password: password
-        }).then(res => {
-            console.log(res);
-            window.location.replace("/food-log")
+    const signInUser = (username, password) => {
+        $.ajax({
+            type: "POST",
+            url: "/api/login",
+            data: {
+                username: username,
+                password: password
+            },
+            statusCode: {
+                200: res => {
+                    window.location.replace("/");
+                },
+                401: res => {
+                    signInError();
+                }
+            }
         });
     };
 
-    login.on("submit", event => {
+    signIn.on("submit", event => {
         event.preventDefault();
 
         const username = usernameInput.val().trim();
         const password = passwordInput.val().trim();
 
         if(!username || !password) {
-            return;
-            //put an error message later
+            signInError();
         }
 
-        loginUser(username, password);
+        console.log(username, password);
+
+        signInUser(username, password);
 
         usernameInput.val("");
         passwordInput.val("");
+    });
+
+    $("#signInError").append("<a href='#forgotUsername' class='modal-trigger'>Forgot username</a> | <a href='#forgotPassword' class='modal-trigger'>Forgot password</a>");
+
+    usernameEmailForm.on("submit", event => {
+        event.preventDefault();
+        
+        $.get(`/api/email/${usernameEmail.val().trim()}`, res => {
+            usernameEmailForm.empty().append("<p class='center'>Your recovery email has been sent.</p>");
+            $("#forgotUsernameFormBtn").remove();
+        });
+    });
+
+    passwordEmailForm.on("submit", event => {
+        event.preventDefault();
+        
+        $.get(`/api/password/${passwordEmail.val().trim()}`, res => {
+            passwordEmailForm.empty().append("<p class='center'>Your recovery email has been sent.</p>");
+            $("#forgotPasswordFormBtn").remove();
+        });
     });
 });

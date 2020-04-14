@@ -60,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        weekID: {
+        weekOfYear: {
             type: DataTypes.INTEGER,
             allowNull: false
         }

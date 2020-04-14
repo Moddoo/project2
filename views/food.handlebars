@@ -1,29 +1,124 @@
-<form id="food-search">
-    <input placeholder="Enter a food" id="food-item" type="text" />
-    <button type="submit">Search</button>
-</form>
+<nav>
+    <div class="nav-wrapper purple" id="food-log-nav">
+        <a href="/food-log" class="brand-logo center">Food Log</a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><a href="/">FOODZI</a></li>
+        </ul>
 
-<br>
+        <form id="food-search">
+            <div class="input-field" id="hide-food-search">
+                <input placeholder="Search for nutritional value" id="food-item" type="search" required>
+                <label class="label-icon" for="search"><i class="material-icons" id="icon1">search</i></label>
+                <i class="material-icons" id="icon2">close</i>
+            </div>
+        </form>
+    </div>
+    
+    <div class="nav-wrapper red" id="error-nav">
+        <span href="" class="brand-logo center"><i class="material-icons">error</i>No nutritional information was found.</span>
+    </div>
+</nav>
 
-<p class="add" id="sunday" data-day="0"></p>
-<br>
-<p class="add" id="monday" data-day="1"></p>
-<br>
-<p class="add" id="tuesday" data-day="2"></p>
-<br>
-<p class="add" id="wednesday" data-day="3"></p>
-<br>
-<p class="add" id="thursday" data-day="4"></p>
-<br>
-<p class="add" id="friday" data-day="5"></p>
-<br>
-<p class="add" id="saturday" data-day="6"></p>
-<br>
-<p id="weekly-totals">Weekly Totals:</p>
-<br>
+<div id="food-log-table">
+  <div class="table teal lighten-4">
+    <table class="striped centered">
+      <thead>
+        <tr>
+            <th>Date</th>
+            <th>Calories</th>
+            <th>Carbs</th>
+            <th>Fat</th>
+            <th>Sodium</th>
+            <th>Cholesterol</th>
+        </tr>
+      </thead>
 
-<p id="past-weeks"></p>
+      <tbody>
+        <tr>
+          <td id="sunday"></td>
+          <td id="sunday-calories"></td>
+          <td id="sunday-carbs"></td>
+          <td id="sunday-fat"></td>
+          <td id="sunday-sodium"></td>
+          <td id="sunday-cholesterol"></td>
+        </tr>
+        <tr>
+          <td id="monday"></td>
+          <td id="monday-calories"></td>
+          <td id="monday-carbs"></td>
+          <td id="monday-fat"></td>
+          <td id="monday-sodium"></td>
+          <td id="monday-cholesterol"></td>
+        </tr>
+        <tr>
+          <td id="tuesday"></td>
+          <td id="tuesday-calories"></td>
+          <td id="tuesday-carbs"></td>
+          <td id="tuesday-fat"></td>
+          <td id="tuesday-sodium"></td>
+          <td id="tuesday-cholesterol"></td>
+        </tr>
+        <tr>
+          <td id="wednesday"></td>
+          <td id="wednesday-calories"></td>
+          <td id="wednesday-carbs"></td>
+          <td id="wednesday-fat"></td>
+          <td id="wednesday-sodium"></td>
+          <td id="wednesday-cholesterol"></td>
+        </tr>
+        <tr>
+          <td id="thursday"></td>
+          <td id="thursday-calories"></td>
+          <td id="thursday-carbs"></td>
+          <td id="thursday-fat"></td>
+          <td id="thursday-sodium"></td>
+          <td id="thursday-cholesterol"></td>
+        </tr>
+        <tr>
+          <td id="friday"></td>
+          <td id="friday-calories"></td>
+          <td id="friday-carbs"></td>
+          <td id="friday-fat"></td>
+          <td id="friday-sodium"></td>
+          <td id="friday-cholesterol"></td>
+        </tr>
+        <tr>
+          <td id="saturday"></td>
+          <td id="saturday-calories"></td>
+          <td id="saturday-carbs"></td>
+          <td id="saturday-fat"></td>
+          <td id="saturday-sodium"></td>
+          <td id="saturday-cholesterol"></td>
+        </tr>
+        <tr>
+            <td><b>Weekly Totals</b></td>
+            <td id="weekly-total-calories"></td>
+            <td id="weekly-total-carbs"></td>
+            <td id="weekly-total-fat"></td>
+            <td id="weekly-total-sodium"></td>
+            <td id="weekly-total-cholesterol"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-<a href="/logout">Logout</a>
+<div class="center" style="margin: 30px 0;">
+  <!-- Dropdown Trigger -->
+  <a class='dropdown-trigger btn col s6 offset-s3 m4 offset-m4 l4 offset-l4' href='#' data-target='dropdown1'
+    id="current-week">Select A Week</a>
 
+  <!-- Dropdown Structure -->
+  <ul id='dropdown1' class='dropdown-content'>
+  </ul>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
+<script src="./js/main.js"></script>
+<script src="./js/signup.js"></script>
+<script src="./js/login.js"></script>
 <script src="./js/food.js" type="text/javascript"></script>
