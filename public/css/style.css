@@ -1,3 +1,32 @@
+.dropdown-trigger {
+    width: 400px;
+}
+
+.add {
+    margin-left: 5px;
+}
+
+.add:hover, .delete:hover {
+    cursor: pointer;
+}
+
+#food-log-nav {
+    height: 64px !important;
+}
+
+#food-item {
+    width: 500px;
+    background-color: white;
+}
+
+#icon1, #icon2 {
+    color: black;
+}
+
+.safety {
+    margin-top: -15px;
+}
+
 *,body.html{
     margin: 0;
     padding: 0;
@@ -9,21 +38,8 @@ html {
   }
 body{
     display: grid;
+    background-color: rgb(179, 199, 199);
 }
-::-webkit-scrollbar {
-    width: 7px;
-    background-color: black !important;
-  }
-::-webkit-scrollbar:hover {
-    width: 12px;
-  }
-::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px red; 
-  }
-::-webkit-scrollbar-thumb {
-    background: yellowgreen; 
-    border-radius: 10px;
-  }  
 .navbar-fixed.navy, .navy{
     height: 0;
     transition: 1s;
@@ -87,7 +103,7 @@ video {
 .video-text h1{
     margin: 0;
 }
-#slider,  #slider .slide{
+#slider, #slider .slide{
     top: 50%; left: 50%;
     transform: translate(-50%,-50%);
     width: 100%;
@@ -99,15 +115,14 @@ video {
     overflow: hidden;
     margin: 0 auto;
     font-size: 1.6em;
-    color: wheat;
-    /* background-color: violet; */
+    color: white;
   }
   #slider .container {
     position: absolute;
     top: 40%;
     left: 50%;
     transform: translate(-50%, 0);
-    animation: slide-animation 12s alternate infinite;
+    animation: slide-animation 25s alternate infinite;
   }
   #slider .slide {
     position: relative;
@@ -115,7 +130,6 @@ video {
     padding: 15px 20px;
   }
 .healthy{
-    box-shadow: 0px 0px 10px 15px rgba(0, 0, 0, 0.438);
     position: relative;
     margin-bottom: 15px;
 }
@@ -442,7 +456,6 @@ video {
 }
 .search-container input{
     width: unset !important;
-    /* height: unset !important; */
     position: relative;
     display: inline-block !important;
     font-size: 20px;
@@ -482,6 +495,23 @@ video {
 }
 .search-container input[type='submit']:hover{
     background: #ff5722;
+}
+td label [type="checkbox"].filled-in:checked+span:not(.lever):after{
+    background-color: red !important;
+    border: 2px solid black;
+}
+td label [type="checkbox"].filled-in:checked+span:not(.lever):before{
+    /* border-right: 2px solid black;
+    border-bottom: 2px solid black; */
+}
+td label span{
+    margin-right: -18px;
+}
+.select-wrapper input.select-dropdown{
+    border-bottom: 2px solid brown !important;
+}
+.dropdown-content li>a, .dropdown-content li>span{
+    color: green !important;
 }
 
   /* [ANIMATION] */

@@ -11,7 +11,6 @@ $(document).ready(function() {
             $('.navy').css('height','45px');
             $('.nav-wrapper a, .sidenav-trigger').css({
                 color: rgb(255, 213, 28),
-                // color: 'tomato',
                 'text-shadow': 'none'
             });
         };

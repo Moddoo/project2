@@ -2,7 +2,20 @@ const db = require("../models");
 const Op = require("../models").Sequelize.Op;
 const axios = require("axios");
 const passport = require("../config/passport");
+const nodemailer = require("nodemailer");
 require("dotenv").config();
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD
+    }
+});
+
+const characters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4",
+    "5", "6", "7", "8", "9", "0", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "=", "+", "[", "]", "{", "}", ";", ":", ",", ".", ">", "/", "?", "|", "~"];
 
 module.exports = app => {
     //User signup and authentication routes
@@ -13,6 +26,21 @@ module.exports = app => {
             email: req.body.email,
             password: req.body.password
         }).then(() => {
+            const mailOptions = {
+                from: process.env.EMAIL,
+                to: req.body.email,
+                subject: "Thank you for using Foodzi!",
+                text: `Welcome, ${req.body.username}! Thank you for registering an account. You can do many cool things on Foodzi.`
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log("Email sent: " + info.response);
+                }
+            });
+
             return res.redirect(307, "/api/login");
         }).catch(err => {
             return res.json(err);
@@ -26,6 +54,74 @@ module.exports = app => {
     app.get("/logout", (req, res) => {
         req.logout();
         res.redirect("/");
+    });
+
+    app.get("/api/email/:email", (req, res) => {
+        const email = req.params.email;
+        
+        db.User.findAll({
+            where: {
+                email: email
+            }
+        }).then(result => {
+            const username = result[0].dataValues.username;
+
+            const mailOptions = {
+                from: process.env.EMAIL,
+                to: email,
+                subject: "Your recovered FOODZI username",
+                text: `Hello, you requested a recovery for your FOODZI username. Your username is: ${username}.`
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log("Email sent: " + info.response);
+                }
+            });
+
+            return res.sendStatus(200);
+        }).catch(err => {
+            console.log(err);
+            return res.sendStatus(200);
+        })
+    });
+
+    app.get("/api/password/:email", (req, res) => {
+        const email = req.params.email;
+        let password = "";
+        
+        db.User.findAll({
+            where: {
+                email: email
+            }
+        }).then(result => {
+            const username = result[0].dataValues.username;
+            for(let i = 0; i < 16; i++) {
+                password += characters[Math.floor(Math.random() * characters.length)];
+            }
+
+            const mailOptions = {
+                from: process.env.EMAIL,
+                to: email,
+                subject: "FOODZI Password Reset",
+                text: `Hello ${username}, we reset your password. Your new password is: ${password}.`
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log("Email sent: " + info.response);
+                }
+            });
+
+            return res.sendStatus(200);
+        }).catch(err => {
+            console.log(err);
+            return res.sendStatus(200);
+        })
     });
 
     //Post route for creating food log entries
@@ -61,7 +157,6 @@ module.exports = app => {
                     day: req.body.day,
                     year: req.body.year,
                     dayID: req.body.dayID,
-                    weekID: req.body.weekID,
                     weekOfYear: req.body.weekOfYear,
                     UserId: req.user.id
                 }).then(dbResponse => {
@@ -130,16 +225,16 @@ module.exports = app => {
     app.get("/api/previous-weeks/:query", (req, res) => {
         const queryArray = req.params.query.split("-");
         const userID = req.user.id;
-        const weekID = parseInt(queryArray[0]);
+        const weekOfYear = parseInt(queryArray[0]);
         console.log(queryArray);
-        console.log(userID, weekID);
+        console.log(userID, weekOfYear);
 
         if (queryArray.length === 1) {
             console.log("length = 1");
             db.FoodLog.findAll({
                 where: {
                     UserId: userID,
-                    weekID: weekID
+                    weekOfYear: weekOfYear
                 }
             }).then(result => {
                 res.json(result);
@@ -150,8 +245,8 @@ module.exports = app => {
             db.FoodLog.findAll({
                 where: {
                     UserId: userID,
-                    weekID: {
-                        [Op.lte]: weekID
+                    weekOfYear: {
+                        [Op.lte]: weekOfYear
                     }
                 }
             }).then(result => {
