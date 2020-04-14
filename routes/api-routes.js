@@ -30,6 +30,7 @@ module.exports = app => {
         res.redirect("/");
     });
 
+    // Food Things
     app.post("/api/food", (req, res) => {
         console.log(req.body);
         console.log(req.user);
@@ -141,7 +142,7 @@ module.exports = app => {
                 UserId: userID
             }
         }).then(result => {
-            console.log(result);
+            // console.log(result);
             res.json(result);
         });
 
@@ -182,12 +183,11 @@ module.exports = app => {
         // const userID = req.user.id; 
         const recipeInput = req.body.input;
 
-
         axios.get(`https://api.spoonacular.com/recipes/search?apiKey=${process.env.API_KEY2}&query=${recipeInput}&number=10`).then(response => {
             
             // const responseArr = response.data.results
             
-            console.log(response.data)
+            // console.log(response.data)
         // const responseArray = [response.data.totalNutrients.ENERC_KCAL, response.data.totalNutrients.FAT, response.data.totalNutrients.CHOCDF, response.data.totalNutrients.NA, response.data.totalNutrients.CHOLE]
             // for(let i = 0; i < responseArray.length; i++){
             //     if(responseArray[i] === undefined){
@@ -198,8 +198,12 @@ module.exports = app => {
             
             const responseData = response.data.results
             
+
+
+
             for(const resData of responseData){
-                console.log(resData)
+                // console.log(resData)
+               res.json(resData)
             }
 
            

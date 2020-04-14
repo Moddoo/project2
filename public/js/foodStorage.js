@@ -3,6 +3,10 @@ $(document).ready(function () {
     const foodForm = $("#food-form");
     const recipeForm = $("#recipe-form");
 
+    const foodList = $("food-list")
+    const recipeList = $("recipe-list");
+
+
 
     foodForm.on("submit", event => {
         event.preventDefault();
@@ -18,6 +22,7 @@ $(document).ready(function () {
             number: foodNumber
         }).then(res => {
             console.log(res);
+            
             location.reload();
         })
     })
@@ -40,7 +45,15 @@ $(document).ready(function () {
 
     
 
-    // $.get(`/api/food/storage`, data => {
-    //     console.log(data);
-    // });
+    $.get(`/api/food/storage`, data => {
+        console.log(data); 
+        
+        recipeList.append(
+            `
+            <li>
+                <p>${data.title}</p>
+                <p>${data.servings}</p>
+            </li>
+            `)
+    });
 });
