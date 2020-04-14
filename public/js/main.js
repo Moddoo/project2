@@ -10,8 +10,8 @@ $(document).ready(function() {
         if($(this).scrollTop() > 130) {
             $('.navy').css('height','45px');
             $('.nav-wrapper a, .sidenav-trigger').css({
-                color: rgb(255, 213, 28),
-                'text-shadow': 'none'
+                color: 'rgb(255, 231, 188)',
+                'text-shadow': '2px 2px 2px black'
             });
         };
         if($(this).scrollTop() < 100) {
