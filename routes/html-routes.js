@@ -11,4 +11,8 @@ module.exports = app => {
     app.get("/food-log", isAuthenticated, (req, res) => {
         return res.render("food");
     });
+
+    app.get("/food-storage", isAuthenticated, (req, res) => {
+        res.render("recipe");
+    });
 };
