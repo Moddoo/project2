@@ -3,8 +3,8 @@ $(document).ready(function () {
     const foodForm = $("#food-form");
     const recipeForm = $("#recipe-form");
 
-    const foodList = $("food-list")
-    const recipeList = $("recipe-list");
+    const foodList = $("#food-list");
+    const recipeList = $("#recipe-list");
 
 
 
@@ -21,39 +21,51 @@ $(document).ready(function () {
             ingredients: foodInput,
             number: foodNumber
         }).then(res => {
-            console.log(res);
-            
+            // console.log(res);
             location.reload();
         })
     })
 
     recipeForm.on("submit", event => {
         event.preventDefault();
-
+        recipeList.empty();
         const recipeInput = $("#recipe-input").val().trim();
             $("#recipe-input").val("");
 
-        console.log(recipeInput)
+        // console.log(recipeInput)
 
         $.post("/api/recipe/search", {
             input: recipeInput
         }).then(res => {
             console.log(res);
-            location.reload();
+
+            for(const recipes of res){
+                recipeList.append(
+                `
+                <li>
+                    <p>${recipes.title}</p>
+                    <p>${recipes.readyInMinutes}</p>
+                    <p>${recipes.servings}</p>
+                </li>
+                `)
+            }
+
+            // location.reload();
         })
     })
 
     
 
     $.get(`/api/food/storage`, data => {
-        console.log(data); 
-        
-        recipeList.append(
-            `
-            <li>
-                <p>${data.title}</p>
-                <p>${data.servings}</p>
-            </li>
-            `)
+        // console.log(data); 
+        for(const foodStorage of data){
+            // console.log(foodStorage);
+            foodList.append(
+                `
+                <li>
+                    <p>${foodStorage.number}: ${foodStorage.ingredients}</p>
+                </li>
+                `)
+        }
     });
 });

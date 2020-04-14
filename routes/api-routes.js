@@ -32,8 +32,8 @@ module.exports = app => {
 
     // Food Things
     app.post("/api/food", (req, res) => {
-        console.log(req.body);
-        console.log(req.user);
+        // console.log(req.body);
+        // console.log(req.user);
         const food = req.body.food;
 
         axios.get(req.body.url).then(response => {
@@ -43,7 +43,7 @@ module.exports = app => {
                     responseArray[i] = {quantity: 0};
                 }
             }
-            console.log(responseArray);
+            // console.log(responseArray);
 
             db.FoodLog.create({
                 food_item: food,
@@ -73,7 +73,7 @@ module.exports = app => {
         for(const date of weekStart){
             dateArray.push(parseInt(date));
         }
-        console.log(dateArray);
+        // console.log(dateArray);
 
         if(dateArray[0] !== dateArray[2]){
             //this if condition isn't tested yet
@@ -138,6 +138,7 @@ module.exports = app => {
         const userID = req.user.id;
 
         db.FoodStorage.findAll({
+            order:[['number', 'DESC']],
             where: {
                 UserId: userID
             }
@@ -149,8 +150,8 @@ module.exports = app => {
     })
     
     app.post("/api/food/storage", (req, res) => {
-        console.log(req.body);
-        console.log(req.user);
+        // console.log(req.body);
+        // console.log(req.user);
         
         db.FoodStorage.create({
             ingredients: req.body.ingredients,
@@ -163,8 +164,7 @@ module.exports = app => {
 
     app.post("/api/recipe/storage", (req, res) => {
         // console.log(req.body);
-        console.log(req.user);
-        
+        // console.log(req.user);
 
         for(const obj of req.body){
             db.recipeStorage.create(
@@ -172,13 +172,12 @@ module.exports = app => {
                 ).then(dbResponse => {
                 res.json(dbResponse);
             })
-
         }
 
     })
 
     app.post("/api/recipe/search", (req, res) => {
-        console.log(req.body.data);
+        // console.log(req.body.data);
         // console.log(req.user);
         // const userID = req.user.id; 
         const recipeInput = req.body.input;
@@ -198,13 +197,13 @@ module.exports = app => {
             
             const responseData = response.data.results
             
+            // console.log(responseData)
+            res.json(responseData)
 
-
-
-            for(const resData of responseData){
+            // for(const resData of responseData){
                 // console.log(resData)
-               res.json(resData)
-            }
+            //    res.json(resData)
+            // }
 
            
 
