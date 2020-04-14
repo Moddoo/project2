@@ -6,6 +6,7 @@ $(document).ready(function () {
     const foodList = $("#food-list");
     const recipeList = $("#recipe-list");
 
+    
 
 
     foodForm.on("submit", event => {

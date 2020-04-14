@@ -320,16 +320,7 @@ module.exports = app => {
 
         axios.get(`https://api.spoonacular.com/recipes/search?apiKey=${process.env.API_KEY2}&query=${recipeInput}&number=10`).then(response => {
             
-            // const responseArr = response.data.results
-            
-            // console.log(response.data)
-        // const responseArray = [response.data.totalNutrients.ENERC_KCAL, response.data.totalNutrients.FAT, response.data.totalNutrients.CHOCDF, response.data.totalNutrients.NA, response.data.totalNutrients.CHOLE]
-            // for(let i = 0; i < responseArray.length; i++){
-            //     if(responseArray[i] === undefined){
-            //         responseArray[i] = {quantity: 0};
-            //     }
-            // }
-            // console.log(responseArray); 
+
             
             const responseData = response.data.results
             
