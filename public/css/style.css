@@ -500,10 +500,10 @@ td label [type="checkbox"].filled-in:checked+span:not(.lever):after{
     background-color: red !important;
     border: 2px solid black;
 }
-td label [type="checkbox"].filled-in:checked+span:not(.lever):before{
+/* td label [type="checkbox"].filled-in:checked+span:not(.lever):before{ */
     /* border-right: 2px solid black;
     border-bottom: 2px solid black; */
-}
+/* } */
 td label span{
     margin-right: -18px;
 }
